@@ -3,12 +3,12 @@
 include __DIR__.'/Autoloader.php';
 MTP\Autoloader::register();
 
-use MTP\Memory;
+use MTP\Event;
 
-$memory  = Memory\Factory::getClient(new MTP\Memory\Config());
-$options = getopt('', array('id:'));
-$id      = $options['id'];
+$manager = new Event\Manager();
 
-while(true) {
-    $memory->set($id, $memory->get($id) + 1);
-}
+$manager->listen('test /testa/', function($a, $b) {
+    echo $a * $b."\n";
+});
+
+$manager->trigger('test', array(4, 6));
